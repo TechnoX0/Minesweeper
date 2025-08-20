@@ -81,7 +81,23 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         initBomb(gridWidth, gridHeight);
         initBombCount(gridWidth, gridHeight);
 
+        bonusTile();
         defaultValues();
+    }
+
+    public void bonusTile() {
+        boolean bonus = true;
+        while (bonus) {
+            int randX = random(gridWidth - 1);
+            int randY = random(gridHeight - 1);
+            Tile tile = tiles.get(randY).get(randX);
+
+            if (!tile.isBomb) {
+                bonus = false;
+                tile.revealed = true;
+                tile.image = new ImageIcon("src/Main/Images/Tile - Bonus.png").getImage();
+            }
+        }
     }
 
     private void initGrid(int width, int height) {
@@ -210,39 +226,63 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         return Math.max(score, 0); // Ensure the score is non-negative
     }
 
-    public static void revealGrid(ArrayList<ArrayList<Tile>> tiles, int row, int col) {
-        int rows = tiles.size();
-        int cols = tiles.get(0).size();
-
-        if (row < 0 || row >= rows || col < 0 || col >= cols) {
-            return; // Invalid cell coordinates
-        }
-
+    public static void revealGrid(ArrayList<ArrayList<Tile>> tiles, int row, int col, boolean origin) {
         Tile tile = tiles.get(row).get(col);
-        if (tile.revealed || tile.isFlagged) {
-            return; // Cell already revealed
-        }
+
+        // Reveal the current cell
+        tile.reveal();
 
         if (tile.isBomb) {
             Tile.explode();
             return;
         }
 
-        // Reveal the current cell
-        tile.revealed = true;
-        tile.reveal();
+        ArrayList<Tile> neighbors = getNeighbors(tiles, row, col);
+        int flagged = getNeighborsFlagged(neighbors);
 
-        if (tile.nearbyBombs == 0) {
-            // Recursively reveal neighboring cells
-            revealGrid(tiles, row - 1, col); // Up
-            revealGrid(tiles, row-1, col-1); // Up-Left
-            revealGrid(tiles, row-1, col+1); // Up-Right
-            revealGrid(tiles, row + 1, col); // Down
-            revealGrid(tiles, row+1, col-1); // Down-Left
-            revealGrid(tiles, row+1, col+1); // Down-Right
-            revealGrid(tiles, row, col - 1); // Left
-            revealGrid(tiles, row, col + 1); // Right
+        for (Tile t : neighbors) {
+            if (t.revealed || t.isFlagged) {
+                continue;
+            }
+
+            if (tile.nearbyBombs == 0) {
+                revealGrid(tiles, t.iy, t.ix, false);
+                System.out.println("hello");
+            } else if (flagged >= tile.nearbyBombs && origin) {
+                System.out.println("hi");
+                revealGrid(tiles, t.iy, t.ix, false);
+            }
         }
+    }
+
+    public static ArrayList<Tile> getNeighbors(ArrayList<ArrayList<Tile>> grid, int row, int col) {
+        ArrayList<Tile> neighbors = new ArrayList<>();
+
+        for (int y = -1; y <= 1; y++) {
+            int rows = row + y;
+            for (int x = -1; x <= 1; x++) {
+                int cols = col + x;
+                if ((cols >= 0 && cols < gamePanel.gridWidth) && (rows >= 0 && rows < gamePanel.gridHeight) && (cols != x || rows != y)) {
+                    Tile tile = grid.get(rows).get(cols);
+
+                    neighbors.add(tile);
+                }
+            }
+        }
+
+        return neighbors;
+    }
+
+    public static int getNeighborsFlagged(ArrayList<Tile> neighbors) {
+        int flagged = 0;
+
+        for (Tile tile : neighbors) {
+            if (tile.isFlagged) {
+                flagged++;
+            }
+        }
+
+        return flagged;
     }
 
     public void revealBombs() {

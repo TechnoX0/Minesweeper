@@ -13,7 +13,7 @@ public class Tile extends JButton {
     public int nearbyBombs;
 
     Image hidden = new ImageIcon("src/Main/Images/Tile - Hidden.png").getImage();
-    Image image = hidden;
+    public Image image = hidden;
     Image revealedState;
 
     public Tile(int x, int y, int ix, int iy, int width, int height) {
@@ -39,7 +39,7 @@ public class Tile extends JButton {
                 }
 
                 if (SwingUtilities.isLeftMouseButton(e)) {
-                    GamePanel.revealGrid(gamePanel.getTiles(), iy, ix);
+                    GamePanel.revealGrid(gamePanel.getTiles(), iy, ix, true);
                 }
 
                 gamePanel.update();
@@ -49,8 +49,8 @@ public class Tile extends JButton {
     }
 
     public void reveal() {
+        this.revealed = true;
         this.image = new ImageIcon("src/Main/Images/Tile - " + nearbyBombs + ".png").getImage();
-//        this.setEnabled(false);
     }
 
     public static void explode() {
