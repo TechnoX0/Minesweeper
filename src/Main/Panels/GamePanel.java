@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.Random;
+
 import static Main.GameFrame.*;
 import static Main.Main.gameFrame;
 import static Main.Main.random;
@@ -86,7 +88,29 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     }
 
     public void bonusTile() {
+        Random random = new Random();
         boolean bonus = true;
+        ArrayList<Tile> flatTiles = new ArrayList<>();
+
+        for (ArrayList<Tile> row : tiles) {
+            for (Tile col : row) {
+                if (col.nearbyBombs == 0 && !col.isBomb) {
+                    flatTiles.add(col);
+                }
+            }
+        }
+
+        for (Tile tile : flatTiles) {
+            System.out.println(tile.nearbyBombs);
+        }
+
+        if (!flatTiles.isEmpty()) {
+            Tile tile = flatTiles.get(random.nextInt(flatTiles.size()));
+            tile.revealed = true;
+            tile.image = new ImageIcon("src/Main/Images/Tile - Bonus.png").getImage();
+            return;
+        }
+
         while (bonus) {
             int randX = random(gridWidth - 1);
             int randY = random(gridHeight - 1);
@@ -334,10 +358,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
     public int getBombCount() {
         return bombCount;
-    }
-
-    public int getTileSize() {
-        return tileSize;
     }
 
     public int getRevealed() {

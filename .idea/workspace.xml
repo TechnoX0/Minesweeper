@@ -9,10 +9,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="80e84f68-f974-4c1b-9f5a-33f4d788c7b9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Main/Images/Tile - Bonus.png" afterDir="false" />
+    <list default="true" id="80e84f68-f974-4c1b-9f5a-33f4d788c7b9" name="Changes" comment="better reveal">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main/Components/Tile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/Components/Tile.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main/Panels/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/Panels/GamePanel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -104,6 +102,15 @@
       <option name="presentableId" value="Default" />
       <updated>1684917556511</updated>
     </task>
+    <task id="LOCAL-00001" summary="better reveal">
+      <option name="closed" value="true" />
+      <created>1755691538930</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1755691538930</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -121,5 +128,7 @@
     <ignored-roots>
       <path value="$USER_HOME$" />
     </ignored-roots>
+    <MESSAGE value="better reveal" />
+    <option name="LAST_COMMIT_MESSAGE" value="better reveal" />
   </component>
 </project>
